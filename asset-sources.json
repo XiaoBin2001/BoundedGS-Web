@@ -1,0 +1,204 @@
+[
+  {
+    "asset": "assets/figures/figure-1.svg",
+    "source": "output/ICLR-27-Submitted/figures/fig01_fig03_components_v9/reference/original_working_set_no_others.svg",
+    "sha256": "830bb8c14d6f96cd6679c2b3517ea848ede2b7a2dfbd731f47a2b03f15e0f52b",
+    "scope": "Exact archived paper-figure SVG; geometry, data and fonts unchanged."
+  },
+  {
+    "asset": "assets/figures/figure-3.svg",
+    "source": "output/ICLR-27-Submitted/figures/fig01_fig03_components_v9/reference/memory_composition_overview.svg",
+    "sha256": "8909034e107946c1ffdee0782bc37d132b8e6fc144d81c0867ed514d5dde8a34",
+    "scope": "Exact archived paper-figure SVG; geometry, data and fonts unchanged."
+  },
+  {
+    "asset": "assets/figures/figure-4.svg",
+    "source": "output/ICLR-27-Submitted/figures/fig04_resolution_v8_corrected/reference/resolution_scaling.svg",
+    "sha256": "d06d406859668a5491ac21116955e19d2546872b2d9859cb251ae947f7e8de1a",
+    "scope": "Archived Figure 4 V8 ownership correction: total peaks, time and L1 unchanged; raster state absent at the post-raster peak."
+  },
+  {
+    "asset": "assets/figures/figure-5.svg",
+    "source": "output/ICLR-27-Submitted/figures/fig05_pixel_blocks_v11/reference/pixel_block_resolution_overview.svg",
+    "sha256": "bf9b69fb21632c1bfc5d9b9584d254d6a09c0c7477a195da345a322d97a27f2e",
+    "scope": "Exact archived paper-figure SVG; geometry, data and fonts unchanged."
+  },
+  {
+    "asset": "assets/figures/figure-6.svg",
+    "source": "output/ICLR-27-Submitted/figures/fig06_independent_blocks_v10/reference/independent_block_memory_time_overview.svg",
+    "sha256": "3bd4f1bd3a31565951415422089a39a46a4b9b7ea0657c6c41c5486f2bf6855b",
+    "scope": "Exact archived paper-figure SVG; geometry, data and fonts unchanged."
+  },
+  {
+    "asset": "assets/figures/figure-4-a.svg",
+    "source": "assets/figures/figure-4.svg",
+    "viewBox": [
+      25,
+      32,
+      430,
+      345
+    ],
+    "axes": [
+      "axes_1"
+    ],
+    "scope": "Mobile vector viewport; original axes and all shared glyph definitions preserved."
+  },
+  {
+    "asset": "assets/figures/figure-4-b.svg",
+    "source": "assets/figures/figure-4.svg",
+    "viewBox": [
+      472,
+      32,
+      430,
+      345
+    ],
+    "axes": [
+      "axes_2"
+    ],
+    "scope": "Mobile vector viewport; original axes and all shared glyph definitions preserved."
+  },
+  {
+    "asset": "assets/figures/figure-4-c.svg",
+    "source": "assets/figures/figure-4.svg",
+    "viewBox": [
+      923,
+      32,
+      480,
+      345
+    ],
+    "axes": [
+      "axes_3",
+      "axes_4"
+    ],
+    "scope": "Mobile vector viewport; original axes and all shared glyph definitions preserved."
+  },
+  {
+    "asset": "assets/figures/figure-3-a.svg",
+    "source": "assets/figures/figure-3.svg",
+    "viewBox": [
+      17,
+      37,
+      398,
+      222
+    ],
+    "axes": [
+      "axes_1"
+    ],
+    "scope": "Mobile selected panel. Original curve and scale retained; shared axis explanation supplied in HTML."
+  },
+  {
+    "asset": "assets/figures/figure-3-b.svg",
+    "source": "assets/figures/figure-3.svg",
+    "viewBox": [
+      414,
+      37,
+      378,
+      222
+    ],
+    "axes": [
+      "axes_2"
+    ],
+    "scope": "Mobile selected panel. Original curve and scale retained; shared axis explanation supplied in HTML."
+  },
+  {
+    "asset": "assets/figures/figure-3-c.svg",
+    "source": "assets/figures/figure-3.svg",
+    "viewBox": [
+      791,
+      37,
+      375,
+      222
+    ],
+    "axes": [
+      "axes_3"
+    ],
+    "scope": "Mobile selected panel. Original curve and scale retained; shared axis explanation supplied in HTML."
+  },
+  {
+    "asset": "assets/figures/figure-3-d.svg",
+    "source": "assets/figures/figure-3.svg",
+    "viewBox": [
+      17,
+      280,
+      398,
+      180
+    ],
+    "axes": [
+      "axes_4"
+    ],
+    "scope": "Mobile selected panel. Original curve and scale retained; shared axis explanation supplied in HTML."
+  },
+  {
+    "asset": "assets/figures/figure-3-e.svg",
+    "source": "assets/figures/figure-3.svg",
+    "viewBox": [
+      414,
+      280,
+      378,
+      180
+    ],
+    "axes": [
+      "axes_5"
+    ],
+    "scope": "Mobile selected panel. Original curve and scale retained; shared axis explanation supplied in HTML."
+  },
+  {
+    "asset": "assets/figures/figure-3-f.svg",
+    "source": "assets/figures/figure-3.svg",
+    "viewBox": [
+      791,
+      280,
+      375,
+      180
+    ],
+    "axes": [
+      "axes_6"
+    ],
+    "scope": "Mobile selected panel. Original curve and scale retained; shared axis explanation supplied in HTML."
+  },
+  {
+    "asset": "assets/figures/figure-2.jpg",
+    "source": "output/ICLR-27-Submitted/figures/fig02_qualitative_v7/reference/qualitative_comparison.png",
+    "experiment_id": "0012",
+    "scope": "Whole submitted Figure 2 with both scenes and inset details; JPEG 3300 px wide, Lanczos, q:v=2. No panel rearrangement."
+  },
+  {
+    "asset": "data.json#components",
+    "source": "output/ICLR-27-Submitted/tables/table2_averages.csv",
+    "experiment_id": "0019",
+    "scope": "Five-scene fixed-model second-pass averages. Distinct from Figure 3 single-view traces."
+  },
+  {
+    "asset": "assets/boundedgs-paper.pdf",
+    "source": "BoundedGS-main.pdf (current release manuscript)",
+    "sha256": "6c3c328aff081e3c1da7cc73bb5bf4e0be3c3bfe22626fc8fc4281b447fabca7",
+    "scope": "Current release manuscript; authors match the project page."
+  },
+  {
+    "asset": "index.html#paper-table",
+    "source": "output/ICLR-27-Submitted/260926-BoundedGS-ICLR27投稿版本.pdf",
+    "page": 7,
+    "scope": "Table 1: identical values, precision and working-set emphasis in both languages."
+  },
+  {
+    "asset": "index.html#paper-heading",
+    "source": "output/History/web/assets/paper.pdf",
+    "scope": "Author Xiaobin Deng and Zhejiang University verified from supplied signed manuscript; download remains the anonymous submission."
+  },
+  {
+    "asset": "zh.html#paper-table",
+    "source": "output/ICLR-27-Submitted/260926-BoundedGS-ICLR27投稿版本.pdf",
+    "page": 7,
+    "scope": "Table 1: identical values, precision and working-set emphasis in both languages."
+  },
+  {
+    "asset": "zh.html#paper-heading",
+    "source": "output/History/web/assets/paper.pdf",
+    "scope": "Author Xiaobin Deng and Zhejiang University verified from supplied signed manuscript; download remains the anonymous submission."
+  },
+  {
+    "asset": "assets/fonts/",
+    "source": "output/ICLR-27-Submitted/figures/fonts/",
+    "scope": "Actual STIXGeneral Regular / Droid Serif Bold; Chinese Noto Serif SC Regular/Bold subsets and OFL license."
+  }
+]

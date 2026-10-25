@@ -1,0 +1,40 @@
+{
+  "components": [
+    {
+      "method": "Original",
+      "memory": 9.97968161404133,
+      "seconds": 12.190862843068317,
+      "similarity": 1.0
+    },
+    {
+      "method": "StagedOriginal1x1DirectGrad",
+      "memory": 7.638010719418526,
+      "seconds": 11.347130672330968,
+      "similarity": 0.9999910735506
+    },
+    {
+      "method": "AutoLeaf384DirectGrad",
+      "memory": 5.0462306290864944,
+      "seconds": 12.035080831474625,
+      "similarity": 0.9999910878743788
+    },
+    {
+      "method": "CompactProjectionG1",
+      "memory": 3.274014118313789,
+      "seconds": 11.229445696156471,
+      "similarity": 0.9999904338401375
+    },
+    {
+      "method": "BoundedGS384",
+      "memory": 1.6624149590730668,
+      "seconds": 10.460939857526682,
+      "similarity": 0.9999906661140197
+    },
+    {
+      "method": "BoundedGS_G3_Auto128",
+      "memory": 1.3050838738679886,
+      "seconds": 12.693062054528855,
+      "similarity": 0.9999905666076776
+    }
+  ]
+}

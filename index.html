@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#285f82">
+  <meta name="description" content="BoundedGS bounds the active rendering working set for high-resolution 3D Gaussian Splatting (3DGS) training while retaining full-view supervision. Explore the method, results, and paper.">
+  <title>BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting</title>
+  <link rel="alternate" hreflang="en" href="./">
+  <link rel="alternate" hreflang="zh-CN" href="zh.html">
+  <link rel="stylesheet" href="style.css?v=3ca6108b19dd">
+  <link rel="preload" href="assets/fonts/STIXGeneral.ttf" as="font" type="font/ttf" crossorigin>
+  <script src="app.js?v=c64445084d67" defer></script>
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="Xiaobin Deng, Changyu Diao, Min Li, Duanqing Xu">
+  <meta name="citation_title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
+  <meta name="citation_author" content="Xiaobin Deng">
+  <meta name="citation_author" content="Changyu Diao">
+  <meta name="citation_author" content="Min Li">
+  <meta name="citation_author" content="Duanqing Xu">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_language" content="en">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BoundedGS">
+  <meta property="og:title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
+  <meta property="og:description" content="BoundedGS bounds the active rendering working set for high-resolution 3D Gaussian Splatting (3DGS) training while retaining full-view supervision. Explore the method, results, and paper.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
+  <meta name="twitter:description" content="BoundedGS bounds the active rendering working set for high-resolution 3D Gaussian Splatting (3DGS) training while retaining full-view supervision. Explore the method, results, and paper.">
+  <link rel="alternate" hreflang="x-default" href="./">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": "BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting",
+  "headline": "BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting",
+  "description": "BoundedGS bounds the active rendering working set for high-resolution 3D Gaussian Splatting (3DGS) training while retaining full-view supervision. Explore the method, results, and paper.",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Xiaobin Deng",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Changyu Diao",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Min Li",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Duanqing Xu",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    }
+  ],
+  "inLanguage": "en",
+  "keywords": [
+    "3D Gaussian Splatting",
+    "3DGS",
+    "high-resolution training",
+    "GPU memory",
+    "BoundedGS"
+  ],
+  "isAccessibleForFree": true,
+  "encoding": {
+    "@type": "MediaObject",
+    "encodingFormat": "application/pdf",
+    "contentUrl": "assets/boundedgs-paper.pdf"
+  }
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">B</span>BoundedGS</a>
+    <nav aria-label="Sections"><a href="#overview">Overview</a><a href="#insight">Problem &amp; insight</a><a href="#method">Method</a><a href="#results">Results</a></nav>
+    <div class="nav-actions"><a class="language-toggle" href="zh.html" lang="zh-CN" hreflang="zh-CN" aria-label="切换为中文">中文</a></div>
+  </div></header>
+
+  <main id="main">
+    <section id="overview" class="paper-overview shell">
+      <div id="paper-heading" class="paper-heading">
+        <h1><span>BoundedGS:</span> Memory-Efficient High-Resolution Training<br class="title-break"> for 3D Gaussian Splatting</h1>
+        <p class="authors"><span class="author-name">Xiaobin Deng</span> <span class="author-name">Changyu Diao<sup>*</sup></span> <span class="author-name">Min Li</span> <span class="author-name">Duanqing Xu<sup>*</sup></span></p><p class="affiliation">Zhejiang University</p><p class="author-note">* Corresponding authors.</p>
+        <div class="resource-buttons"><a class="button primary" href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a><button class="button resource-pending" type="button" disabled aria-label="arXiv: Coming soon"><span>arXiv</span><span class="resource-status">Coming soon</span></button><button class="button resource-pending" type="button" disabled aria-label="GitHub: Coming soon"><span>GitHub</span><span class="resource-status">Coming soon</span></button><button class="button resource-pending" type="button" disabled aria-label="Cite: Coming soon"><span>Cite</span><span class="resource-status">Coming soon</span></button></div>
+      </div>
+      <div class="task-intro"><h2>Keep full-view supervision. <span>Control temporary memory at high resolution.</span></h2></div>
+      <p class="cover-setup"><strong>Same starting model. Higher image resolution.</strong> Starting from the same Bicycle model with 5.99 million Gaussians, we keep the views and field of view unchanged and increase image width from 1K to 16K. We compare the temporary working set, training computation time, and L1 loss.</p>
+      <figure class="cover-figure">
+        <img class="desktop-figure" src="assets/figures/figure-4.svg?v=d06d40685966" width="1417" height="385" fetchpriority="high" alt="Figure 4: A, Original rasterization memory grows with resolution. B, BoundedGS stays near 1.07 GiB. C, training computation is faster with nearly identical L1 loss.">
+        <div class="figure-legend cover-legend"><span><i class="projection"></i>Projection + handoff</span><span><i class="gradients"></i>Parameter / projection gradients</span><span><i class="raster"></i>Raster / GT / loss</span><span><i class="extrapolation"></i>Extrapolation</span></div>
+        <div class="cover-reading">
+          <article class="cover-panel">
+            <img class="mobile-figure" src="assets/figures/figure-4-a.svg?v=f8d131fe4b1f" width="430" height="345" alt="Figure 4A: the orange rasterization state grows with resolution; Original runs out of memory at 12K.">
+            <p class="figure-reference">A · Original</p><h3>More pixels, larger rasterization caches.</h3>
+            <p>Follow the growing orange area. Original retains rasterization caches for the whole image until backpropagation. More pixels and Gaussian intersections mean a larger temporary working set, reaching out-of-memory at 12K.</p>
+          </article>
+          <article class="cover-panel">
+            <img class="mobile-figure" src="assets/figures/figure-4-b.svg?v=89d696aebb31" width="430" height="345" loading="lazy" alt="Figure 4B: BoundedGS stays within 1.073–1.077 GiB from 1K to 16K; rasterization caches have been released at the peak.">
+            <p class="figure-reference">B · BoundedGS</p><h3>Higher resolution, a steady working set.</h3>
+            <p>From 1K to 16K, the curve stays near <strong>1.07 GiB</strong>. Each region releases its local state when its computation finishes, so more pixels no longer require all rasterization caches to coexist.</p>
+            <p class="panel-note">There is no orange at this peak: it occurs during projection backward, after rasterization caches have been released. <a href="#figure-3" data-component="e">See the cache lifetime in Figure 3 ↘</a></p>
+          </article>
+          <article class="cover-panel">
+            <img class="mobile-figure" src="assets/figures/figure-4-c.svg?v=a9186b93e692" width="480" height="345" loading="lazy" alt="Figure 4C: at 11K, second-pass time falls from 21.76 to 19.79 seconds. The largest relative L1 loss difference at shared resolutions is about 6.77 times 10 to the minus 7.">
+            <p class="figure-reference">C · Time and agreement</p><h3>Faster computation, nearly identical L1.</h3>
+            <p>The blue time curve stays below the gray one: at 11K, time falls from <strong>21.76 to 19.79 seconds</strong>. The purple difference curve hugs zero, with a maximum relative L1 loss difference of about <strong>6.77 × 10<sup>−7</sup></strong>.</p>
+          </article>
+        </div>
+        <figcaption class="figure-note">Figure 4 · The working set is temporary GPU memory beyond persistent model and training state. A/B show the peak composition for one fixed view; C times the second pass over 169 views and compares L1 on the same fixed view. 1K = 1,024 pixels in width. Original’s dashed segment is an extrapolation beyond the out-of-memory boundary.</figcaption>
+      </figure>
+    </section>
+
+    <section id="insight" class="section soft-section"><div class="shell">
+      <div class="section-heading"><p class="section-number">01 / Problem &amp; insight</p><h2>Collect gradients from the full view.<br>Release local caches along the way.</h2><p class="section-lead">Higher resolution brings more pixels and more intersections between Gaussians and image tiles. Rasterization caches coexist with projection and gradient state, together creating the training memory peak.</p></div>
+      <figure class="paper-figure trace-figure">
+        <div class="figure-scroll" tabindex="0" role="region" aria-label="Figure 1 memory trace; scroll horizontally on narrow screens"><img src="assets/figures/figure-1.svg?v=830bb8c14d6f" width="979" height="266" loading="lazy" alt="Figure 1: Original’s projection, gradient, and rasterization states overlap during one view, producing a 9.551 GiB temporary working-set peak."></div>
+        <p class="scroll-hint">Scroll sideways to see the full chart ↔</p>
+        <figcaption><strong>The peak depends on what is alive together.</strong> Figure 1 traces one view of the Bicycle model trained for 15,000 steps. Colors show concurrent projection, gradient, and rasterization / supervision / loss state; the red marker identifies the 9.551 GiB peak. The horizontal axis is allocation-event order, not elapsed time.</figcaption>
+      </figure>
+      <div class="insight-pair">
+        <article><h3>Complete gradients do not require every cache at once.</h3><p>Gaussian parameters stay fixed within a view. Once a region finishes rasterization, loss, and backward computation, its gradient contribution can be accumulated and its local caches released before the next region runs.</p></article>
+        <article><h3>Partition by workload, not just image area.</h3><p>Two regions with the same area can contain very different numbers of Gaussian intersections. BoundedGS estimates load from intersections, pixels, and buffer layout, using smaller regions where the workload is dense and larger ones where it is sparse.</p></article>
+      </div>
+      <p class="insight-statement">The regions still cover the entire image and share one camera and global model. <strong>Accumulate gradients across the whole view, then update the parameters once.</strong></p>
+    </div></section>
+
+    <section id="method" class="section shell">
+      <div class="section-heading"><p class="section-number">02 / Method</p><h2>Release local caches sooner.<br>Then address projection and gradient peaks.</h2><p class="section-lead">Figure 3 follows one sequence of changes: A executes the full image; B separates the two backward stages; C bounds local rasterization; D and E compact projection and gradients; F explores a smaller budget and more groups.</p></div>
+      <figure class="paper-figure method-figure" id="figure-3">
+        <img class="desktop-figure" src="assets/figures/figure-3.svg?v=8909034e1079" width="1166" height="461" loading="lazy" alt="Figure 3: six single-view traces, A–F, show early cache release, Auto Leaf, compact projection, compact gradients, and a smaller leaf budget with more groups.">
+        <div class="mobile-components">
+          <label for="component-panel">Explore a configuration in Figure 3</label>
+          <select id="component-panel">
+            <option value="a" data-src="assets/figures/figure-3-a.svg?v=5b14cd057d3e">A · Original, full-image execution</option>
+            <option value="b" data-src="assets/figures/figure-3-b.svg?v=b231a7f79177">B · Separate backward stages</option>
+            <option value="c" data-src="assets/figures/figure-3-c.svg?v=3bd484a36d70">C · Bounded local rasterization</option>
+            <option value="d" data-src="assets/figures/figure-3-d.svg?v=78caf373a112">D · Candidate-indexed projection</option>
+            <option value="e" data-src="assets/figures/figure-3-e.svg?v=d09f77d85bdd">E · Compact parameter gradients</option>
+            <option value="f" data-src="assets/figures/figure-3-f.svg?v=ca1f35abca1a">F · More groups, smaller budget</option>
+          </select>
+          <div class="figure-legend"><span><i class="projection"></i>Projection + handoff</span><span><i class="gradients"></i>Parameter / projection gradients</span><span><i class="raster"></i>Raster / GT / loss</span></div>
+          <img id="component-image" src="assets/figures/figure-3-a.svg?v=5b14cd057d3e" width="398" height="222" loading="lazy" alt="Figure 3A: Original’s full-image working-set trace.">
+          <p id="component-caption" class="figure-note" aria-live="polite">A: Rasterization and backward state coexist around the peak.</p>
+          <p class="figure-note">Horizontal: allocation-event order from 0% to 100%. Vertical: working set in GiB. A–C and D–F use different vertical ranges.</p>
+        </div>
+        <figcaption><strong>After each change, look at what still sets the peak.</strong> Figure 3 traces one view of the Bicycle model trained for 15,000 steps. Colors show concurrent state; red markers locate the peaks. A–C and D–F use different vertical ranges, so compare the values.</figcaption>
+      </figure>
+      <div class="method-explanations">
+        <article><p class="figure-reference">A → B</p><h3>Separate backward stages to release caches sooner</h3><p>First complete rasterization backward and collect gradients of projected attributes, then run projection backward. Rasterization caches can leave memory before later gradient state grows.</p></article>
+        <article><p class="figure-reference">B → C</p><h3>Bound local rasterization with a workload budget</h3><p>Split the image into leaves, each completing forward, loss, and backward computation. Regions that exceed the budget are subdivided further. A layout can be cached per camera, with its current load checked before every execution.</p></article>
+        <article><p class="figure-reference">C → D → E</p><h3>Keep detailed state for candidate Gaussians</h3><p>As local caches shrink, full-model projection and gradients become the next bottleneck. Candidate-indexed projection and compact gradients retain detailed state only for Gaussians that may contribute to the current view.</p></article>
+      </div>
+      <div class="method-system"><h3>Carry the same principle into full training.</h3><p>More projection groups and a smaller leaf budget (F) can reduce the working set further, with more execution overhead. Beyond rendering, CPU-assisted structure rebuilding and bounded image supply help control resource use throughout training.</p></div>
+      <p class="figure-note">384 MiB is the local rasterization budget, not a limit on the whole training process. Local SSIM windows differ from full-image SSIM at region boundaries; final quality is evaluated on complete images.</p>
+    </section>
+
+    <section id="results" class="section soft-section"><div class="shell">
+      <div class="section-heading"><p class="section-number">03 / Results</p><h2>A much smaller working set.<br>Comparable quality and training efficiency.</h2><p class="section-lead">We train 13 scenes at their native high resolutions for 30,000 steps on an RTX 4090. Original is the full-image execution baseline in the same training framework; both methods use the same initialization procedure and Gaussian-count schedule.</p></div>
+      <div class="result-summary"><p><strong>9.97 → 1.76 GiB</strong><span>Mean rendering working set · five 5K outdoor scenes</span></p><p><strong>36.7 → 33.9 min</strong><span>Mean full-training time · the same five scenes</span></p><p><strong>24.44 → 24.42 dB</strong><span>Mean PSNR · the same five scenes</span></p></div>
+      <div class="subsection-heading"><h3>Full training across three scene groups</h3><span>Table 1</span></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Table 1; scroll horizontally on narrow screens"><table id="paper-table"><thead><tr><th scope="col">Scene group / native resolution</th><th scope="col">Method</th><th scope="col">PSNR ↑</th><th scope="col">SSIM ↑</th><th scope="col">LPIPS ↓</th><th scope="col">Time ↓<small>minutes</small></th><th scope="col">Working set ↓<small>GiB</small></th></tr></thead><tbody>
+        <tr><th rowspan="2" scope="rowgroup">Mip-NeRF 360 outdoor<small>5 scenes · 5K</small></th><td>Original</td><td>24.44</td><td>0.739</td><td>0.314</td><td>36.7</td><td>9.97</td></tr>
+        <tr class="ours"><td>BoundedGS</td><td>24.42</td><td>0.739</td><td>0.314</td><td>33.9</td><td><strong>1.76</strong></td></tr>
+        <tr class="group-start"><th rowspan="2" scope="rowgroup">Mip-NeRF 360 indoor<small>4 scenes · 3K</small></th><td>Original</td><td>31.52</td><td>0.932</td><td>0.239</td><td>16.5</td><td>4.43</td></tr>
+        <tr class="ours"><td>BoundedGS</td><td>31.64</td><td>0.932</td><td>0.239</td><td>15.9</td><td><strong>0.87</strong></td></tr>
+        <tr class="group-start"><th rowspan="2" scope="rowgroup">Tanks and Temples<small>4 scenes · 4K</small></th><td>Original</td><td>22.92</td><td>0.764</td><td>0.294</td><td>23.2</td><td>7.65</td></tr>
+        <tr class="ours"><td>BoundedGS</td><td>22.91</td><td>0.764</td><td>0.294</td><td>23.0</td><td><strong>1.79</strong></td></tr>
+      </tbody></table></div>
+      <p class="scroll-hint">Scroll sideways to see the full table ↔</p>
+      <p class="figure-note">Values, precision, and bold working-set entries follow Table 1. Scenes are weighted equally within each group. Working set is the mean of per-scene temporary rendering peaks; training time excludes evaluation, video, PLY saving, and resource monitoring. ↑ Higher is better. ↓ Lower is better.</p>
+
+      <div class="subsection-heading qualitative-heading"><h3>Reconstruction details: bench edges and train lettering</h3><span>Figure 2</span></div>
+      <figure class="paper-figure qualitative-figure"><div class="figure-scroll" tabindex="0" role="region" aria-label="Figure 2 quality comparison; scroll horizontally on narrow screens"><img src="assets/figures/figure-2.jpg?v=b9e5c9b0c337" width="3300" height="1470" loading="lazy" alt="Figure 2: Bicycle and Train, with ground truth, Original, and BoundedGS from left to right. Insets compare bench edges and train lettering."></div><p class="scroll-hint">Scroll sideways to compare all three columns ↔</p><figcaption>Left to right: ground truth, Original, and BoundedGS. Rows show Bicycle test view 4 and Train test view 7. Insets highlight fine lines, occlusion boundaries, and lettering.</figcaption></figure>
+
+      <div class="evidence-block" id="component-ablation">
+        <div class="subsection-heading"><h3>Component ablation: what does each step remove?</h3><span>Table 2</span></div>
+        <p class="evidence-lead">Along A→E in Figure 3, releasing rasterization caches, bounding local load, and compacting projection and gradients reduce the mean working set from <strong>9.980 to 1.662 GiB</strong> across five scenes, while also reducing computation time. F saves more memory with a smaller budget, but takes longer.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Component ablation; scroll horizontally on narrow screens"><table class="detail-table"><thead><tr><th scope="col">Configuration</th><th scope="col">Working set / GiB ↓</th><th scope="col">Second-pass time / s ↓</th><th scope="col">Render similarity SSIM ↑</th></tr></thead><tbody id="component-rows"><tr><td>A · Original</td><td>9.980</td><td>12.19</td><td>1.000000</td></tr><tr><td>B · Separate backward stages</td><td>7.638</td><td>11.35</td><td>0.999991</td></tr><tr><td>C · Bounded local rasterization</td><td>5.046</td><td>12.04</td><td>0.999991</td></tr><tr><td>D · Candidate-indexed projection</td><td>3.274</td><td>11.23</td><td>0.999990</td></tr><tr class="ours"><td>E · Compact gradients (BoundedGS)</td><td>1.662</td><td>10.46</td><td>0.999991</td></tr><tr><td>F · 3 × 3 groups / 128 MiB</td><td>1.305</td><td>12.69</td><td>0.999991</td></tr></tbody></table></div>
+        <p class="scroll-hint">Scroll sideways to see the full table ↔</p>
+        <p class="figure-note">Fixed-model training simulations, averaged over the second pass across five scenes. SSIM measures render similarity to Original; closer to 1 means more similar.</p>
+      </div>
+
+      <div class="evidence-block supplementary-figures" id="block-comparisons">
+        <div class="subsection-heading"><h3>Why not just split the image into uniform blocks?</h3><span>Figures 5 / 6</span></div>
+        <p class="evidence-lead">Splitting into blocks can also save memory. The key questions are <strong>how to choose block size, and how much work to repeat for each block.</strong> We first give fixed blocks compact projection and gradients too, then compare partitioning strategies and the cost of per-block updates.</p>
+        <article class="comparison-story" id="figure-5">
+          <p class="figure-reference">Figure 5 · Fixed pixels vs. workload-based regions</p>
+          <h3>With compact state in both paths, Auto Leaf still improves efficiency.</h3>
+          <p class="comparison-setup">Use the same Bicycle model with 5.99 million Gaussians and increase resolution from 2K to 16K. All three paths separate stages and compact projection and gradients. A/B use blocks 2K pixels wide; C partitions by a 384 MiB workload budget.</p>
+          <figure><div class="figure-scroll" tabindex="0" role="region" aria-label="Figure 5; scroll horizontally on narrow screens"><img src="assets/figures/figure-5.svg?v=bf9b69fb2163" width="1339" height="634" loading="lazy" alt="Figure 5: A updates each fixed block independently; B accumulates fixed-block gradients; C uses Auto Leaf; D compares time. At 16K, the three paths take 149.4, 49.3, and 35.7 seconds."></div><p class="scroll-hint">Scroll sideways to see all four panels ↔</p><figcaption>Start with B and C: both update once per view, but Auto Leaf has a lower, steadier working set. Then look at D: the time cost of fixed blocks becomes more noticeable as resolution increases.</figcaption></figure>
+          <div class="comparison-reading">
+            <p><strong>B → C: one update per view, a better fit to local load.</strong> A fixed-area block can still contain dense Gaussian intersections. Auto Leaf adjusts region size to the load, keeping the working set near 1.07 GiB. At 16K, time falls from 49.3 seconds with fixed blocks to 35.7 seconds.</p>
+            <p><strong>A → D: updating every block makes memory savings expensive.</strong> At 16K, an 8 × 8 grid means 64 parameter updates per view, along with repeated screening, projection, and gradient construction. This pass takes 149.4 seconds.</p>
+          </div>
+          <p class="comparison-takeaway">Figure 5 takeaway: <strong>local workload sets cache size; a single update after the full view avoids the repeated work of per-block updates.</strong></p>
+        </article>
+        <article class="comparison-story" id="figure-6">
+          <p class="figure-reference">Figure 6 · The cost of finer fixed grids</p>
+          <h3>Finer grids keep cutting memory, but take longer.</h3>
+          <p class="comparison-setup">Switch to a Bicycle model with 11.98 million Gaussians and compare 1 × 1, 2 × 2, and 4 × 4 grids, updating each block independently. The top row repeats full projection; the bottom row already uses stage separation, candidate projection, and compact gradients.</p>
+          <figure><div class="figure-scroll" tabindex="0" role="region" aria-label="Figure 6; scroll horizontally on narrow screens"><img src="assets/figures/figure-6.svg?v=3bd4f1bd3a31" width="1210" height="576" loading="lazy" alt="Figure 6: finer grids and compact state reduce the working set, but independent updates repeat computation. Compact 4 by 4 takes 65.36 seconds, about 5.65 times the Auto Leaf time on the same model."></div><p class="scroll-hint">Scroll sideways to see all six panels ↔</p><figcaption>Compare the top and bottom rows: compact projection and gradients do reduce the peak. Then follow D→E→F: finer grids repeat projection, backward computation, and updates more often within a view.</figcaption></figure>
+          <div class="comparison-reading">
+            <p><strong>Compact state does not remove repeated work.</strong> The 2 × 2 and 4 × 4 grids perform 4 and 16 parameter updates per view. In the bottom row, their times rise from 21.84 to 65.36 seconds.</p>
+            <p><strong>Compare memory and time against Auto Leaf on the same model.</strong> Auto Leaf uses 1.572 GiB and 11.57 seconds. Compact 4 × 4 reaches 0.848 GiB, saving another 0.724 GiB of temporary memory, but takes about 5.65 times as long.</p>
+          </div>
+          <p class="comparison-takeaway">Figure 6 takeaway: <strong>smaller fixed blocks can reach a lower peak; Auto Leaf offers a better memory–time trade-off by avoiding repeated computation.</strong></p>
+          <p class="figure-note">The same-model Auto Leaf values come from Appendix C.2. These comparisons use the all-view peak and time labeled Warm in the figure; red Trace peak markers refer to one view.</p>
+        </article>
+      </div>
+    </div></section>
+  </main>
+
+  <footer class="shell site-footer" id="citation"><div class="footer-top"><div><a class="brand" href="#overview">BoundedGS</a><p>Memory-Efficient High-Resolution Training<br>for 3D Gaussian Splatting</p></div><div class="footer-links"><a href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">Paper ↗</a></div></div><details class="citation-details"><summary>Citation <span aria-hidden="true">＋</span></summary><div class="citation-body"><pre id="bibtex">@misc{deng2026boundedgs,
+  title  = {BoundedGS: Memory-Efficient High-Resolution Training
+            for 3D Gaussian Splatting},
+  author = {Xiaobin Deng and Changyu Diao and Min Li and Duanqing Xu},
+  year   = {2026}
+}</pre><button class="button" id="copy-citation">Copy BibTeX</button><span id="copy-status" role="status"></span></div></details><p class="footer-note">Figures show the experiments and settings described in the paper. <a href="asset-sources.json" target="_blank" rel="noopener">Figure and data sources ↗</a></p></footer>
+</body>
+</html>

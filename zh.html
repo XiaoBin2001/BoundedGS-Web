@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#285f82">
+  <meta name="description" content="BoundedGS 面向高分辨率 3D Gaussian Splatting（3DGS）训练，在保留完整视图监督的同时控制活跃渲染工作集。查看方法、实验结果与论文。">
+  <title>BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting</title>
+  <link rel="alternate" hreflang="en" href="./">
+  <link rel="alternate" hreflang="zh-CN" href="zh.html">
+  <link rel="stylesheet" href="style.css?v=3ca6108b19dd">
+  <link rel="preload" href="assets/fonts/STIXGeneral.ttf" as="font" type="font/ttf" crossorigin>
+  <script src="app.js?v=c64445084d67" defer></script>
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="Xiaobin Deng, Changyu Diao, Min Li, Duanqing Xu">
+  <meta name="citation_title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
+  <meta name="citation_author" content="Xiaobin Deng">
+  <meta name="citation_author" content="Changyu Diao">
+  <meta name="citation_author" content="Min Li">
+  <meta name="citation_author" content="Duanqing Xu">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_language" content="en">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="BoundedGS">
+  <meta property="og:title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
+  <meta property="og:description" content="BoundedGS 面向高分辨率 3D Gaussian Splatting（3DGS）训练，在保留完整视图监督的同时控制活跃渲染工作集。查看方法、实验结果与论文。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
+  <meta name="twitter:description" content="BoundedGS 面向高分辨率 3D Gaussian Splatting（3DGS）训练，在保留完整视图监督的同时控制活跃渲染工作集。查看方法、实验结果与论文。">
+  <link rel="alternate" hreflang="x-default" href="./">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "name": "BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting",
+  "headline": "BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting",
+  "description": "BoundedGS 面向高分辨率 3D Gaussian Splatting（3DGS）训练，在保留完整视图监督的同时控制活跃渲染工作集。查看方法、实验结果与论文。",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Xiaobin Deng",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Changyu Diao",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Min Li",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Duanqing Xu",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Zhejiang University"
+      }
+    }
+  ],
+  "inLanguage": "en",
+  "keywords": [
+    "3D Gaussian Splatting",
+    "3DGS",
+    "high-resolution training",
+    "GPU memory",
+    "BoundedGS"
+  ],
+  "isAccessibleForFree": true,
+  "encoding": {
+    "@type": "MediaObject",
+    "encodingFormat": "application/pdf",
+    "contentUrl": "assets/boundedgs-paper.pdf"
+  }
+}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至正文</a>
+  <header class="site-header"><div class="nav-shell">
+    <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">B</span>BoundedGS</a>
+    <nav aria-label="章节导航"><a href="#overview">封面</a><a href="#insight">问题与洞见</a><a href="#method">方法</a><a href="#results">效果</a></nav>
+    <div class="nav-actions"><a class="language-toggle" href="./" lang="en" hreflang="en" aria-label="Switch to English">English</a></div>
+  </div></header>
+
+  <main id="main">
+    <section id="overview" class="paper-overview shell">
+      <div id="paper-heading" class="paper-heading">
+        <h1><span>BoundedGS：</span>面向高分辨率三维高斯泼溅的<br class="title-break">显存高效训练</h1>
+        <p class="authors"><span class="author-name">Xiaobin Deng</span> <span class="author-name">Changyu Diao<sup>*</sup></span> <span class="author-name">Min Li</span> <span class="author-name">Duanqing Xu<sup>*</sup></span></p><p class="affiliation">浙江大学</p><p class="author-note">* 通讯作者。</p>
+        <div class="resource-buttons"><a class="button primary" href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a><button class="button resource-pending" type="button" disabled aria-label="arXiv: 待更新"><span>arXiv</span><span class="resource-status">待更新</span></button><button class="button resource-pending" type="button" disabled aria-label="GitHub: 待更新"><span>GitHub</span><span class="resource-status">待更新</span></button><button class="button resource-pending" type="button" disabled aria-label="Cite: 待更新"><span>Cite</span><span class="resource-status">待更新</span></button></div>
+      </div>
+      <div class="task-intro"><h2>保留完整视图监督，<span>控制高分辨率训练的临时显存开销。</span></h2></div>
+      <p class="cover-setup"><strong>实验条件：同一模型，只提高图像分辨率。</strong> 从同一个 Bicycle 模型（约 599 万个高斯）出发，保持视角与视野不变，将图像宽度从 1K 增至 16K，对比训练计算的临时工作集、时间和 L1 损失。</p>
+      <figure class="cover-figure">
+        <img class="desktop-figure" src="assets/figures/figure-4.svg?v=d06d40685966" width="1417" height="385" fetchpriority="high" alt="图4：A 原始方法的光栅化临时显存随分辨率增长；B BoundedGS工作集约1.07GiB；C 训练计算更快，L1损失几乎一致。">
+        <div class="figure-legend cover-legend"><span><i class="projection"></i>投影及阶段交接</span><span><i class="gradients"></i>参数／投影梯度</span><span><i class="raster"></i>光栅化／监督／损失</span><span><i class="extrapolation"></i>外推</span></div>
+        <div class="cover-reading">
+          <article class="cover-panel">
+            <img class="mobile-figure" src="assets/figures/figure-4-a.svg?v=f8d131fe4b1f" width="430" height="345" alt="图4A：橙色光栅化状态随分辨率明显增长，Original在12K显存不足。">
+            <p class="figure-reference">图 A · Original</p><h3>分辨率越高，光栅化缓存越大。</h3>
+            <p>看不断增厚的橙色区域：原始训练逻辑把全图光栅化缓存保留到反向计算。像素和高斯交叠越多，临时工作集就越大，到了 12K 便显存不足。</p>
+          </article>
+          <article class="cover-panel">
+            <img class="mobile-figure" src="assets/figures/figure-4-b.svg?v=89d696aebb31" width="430" height="345" loading="lazy" alt="图4B：BoundedGS在1K到16K的临时工作集保持1.073至1.077GiB，峰值时光栅化缓存已释放。">
+            <p class="figure-reference">图 B · BoundedGS</p><h3>分辨率提高，工作集保持稳定。</h3>
+            <p>从 1K 到 16K，曲线始终贴近 <strong>1.07 GiB</strong>。局部区域算完就释放，更多像素不再要求所有光栅化缓存同时驻留。</p>
+            <p class="panel-note">这里没有橙色，是因为峰值出现在光栅化结束后的投影反向阶段，此时光栅化缓存已释放。<a href="#figure-3" data-component="e">到图 3 看缓存如何退出 ↘</a></p>
+          </article>
+          <article class="cover-panel">
+            <img class="mobile-figure" src="assets/figures/figure-4-c.svg?v=a9186b93e692" width="480" height="345" loading="lazy" alt="图4C：11K时第二轮时间由21.76降至19.79秒，共同分辨率下L1损失最大相对差异约6.77乘10的负7次方。">
+            <p class="figure-reference">图 C · 时间与计算一致性</p><h3>训练计算更快，L1 几乎一致。</h3>
+            <p>蓝色时间曲线低于灰色：11K 时从 <strong>21.76 降至 19.79 秒</strong>。紫色差异曲线贴近零，两者 L1 损失的最大相对差异约 <strong>6.77 × 10<sup>−7</sup></strong>。</p>
+          </article>
+        </div>
+        <figcaption class="figure-note">图 4 · 工作集指模型等常驻状态之外的临时显存。A/B 为同一视角的峰值组成；C 的时间来自 169 视角第二轮，L1 比较同一视角的计算结果。1K = 1,024 像素宽；Original 的虚线段为显存不足后的外推。</figcaption>
+      </figure>
+    </section>
+
+    <section id="insight" class="section soft-section"><div class="shell">
+      <div class="section-heading"><p class="section-number">01 / 问题与洞见</p><h2>完整视图需要完整的梯度，<br>局部缓存可以更早释放。</h2><p class="section-lead">提高图像分辨率，会增加像素和高斯与图像小块的交叠。它们产生的光栅化缓存与投影、梯度状态同时驻留，构成训练中的显存峰值。</p></div>
+      <figure class="paper-figure trace-figure">
+        <div class="figure-scroll" tabindex="0" role="region" aria-label="论文图1显存轨迹，窄屏可横向滚动"><img src="assets/figures/figure-1.svg?v=830bb8c14d6f" width="979" height="266" loading="lazy" alt="论文图1：Original一个视图的显存生命周期，投影、梯度和光栅化状态叠加形成9.551GiB的临时工作集峰值。"></div>
+        <p class="scroll-hint">左右滑动查看完整图表 ↔</p>
+        <figcaption><strong>峰值取决于哪些状态同时存在。</strong> 图 1 追踪 训练到 15,000 步的 Bicycle 模型的一个视图：不同颜色代表并存的投影、梯度与光栅化／监督／损失状态，红色标记为 9.551 GiB 峰值。横轴是分配事件顺序，不是实际耗时。</figcaption>
+      </figure>
+      <div class="insight-pair">
+        <article><h3>梯度需要完整，缓存不必同时保留。</h3><p>同一视图内，高斯参数保持不变。一个局部区域完成光栅化、损失与反向计算后，其梯度贡献可以先归并，局部缓存随即释放，再处理下一区域。</p></article>
+        <article><h3>按实际负载划分，而非只按图像面积。</h3><p>同样大的区域，可能包含不同数量的高斯交叠。BoundedGS 根据交叠数量、像素及缓冲区布局估计负载，让密集区域更小，稀疏区域更大。</p></article>
+      </div>
+      <p class="insight-statement">所有区域仍覆盖完整图像、使用同一相机与全局模型，<strong>汇总整个视图的梯度后，再进行一次参数更新。</strong></p>
+    </div></section>
+
+    <section id="method" class="section shell">
+      <div class="section-heading"><p class="section-number">02 / 方法</p><h2>先缩短局部缓存的寿命，<br>再处理暴露出来的投影与梯度峰值。</h2><p class="section-lead">图 3 将这些改变放到同一条组件对照链上：A 是全图执行；B 分离两段反向；C 加入有界局部光栅化；D、E 继续压缩候选投影和梯度；F 展示进一步调整预算的取舍。</p></div>
+      <figure class="paper-figure method-figure" id="figure-3">
+        <img class="desktop-figure" src="assets/figures/figure-3.svg?v=8909034e1079" width="1166" height="461" loading="lazy" alt="论文图3：A到F六种配置的单视图工作集轨迹，依次分离反向、加入Auto Leaf、候选投影、紧凑梯度，再调整分组和Leaf预算。">
+        <div class="mobile-components">
+          <label for="component-panel">查看图 3 的配置</label>
+          <select id="component-panel">
+            <option value="a" data-src="assets/figures/figure-3-a.svg?v=5b14cd057d3e">A · Original 全图执行</option>
+            <option value="b" data-src="assets/figures/figure-3-b.svg?v=b231a7f79177">B · 分离反向，提前释放</option>
+            <option value="c" data-src="assets/figures/figure-3-c.svg?v=3bd484a36d70">C · 有界局部光栅化</option>
+            <option value="d" data-src="assets/figures/figure-3-d.svg?v=78caf373a112">D · 候选索引投影</option>
+            <option value="e" data-src="assets/figures/figure-3-e.svg?v=d09f77d85bdd">E · 紧凑参数梯度</option>
+            <option value="f" data-src="assets/figures/figure-3-f.svg?v=ca1f35abca1a">F · 更激进的分组与预算</option>
+          </select>
+          <div class="figure-legend"><span><i class="projection"></i>投影及阶段交接</span><span><i class="gradients"></i>参数／投影梯度</span><span><i class="raster"></i>光栅化／监督／损失</span></div>
+          <img id="component-image" src="assets/figures/figure-3-a.svg?v=5b14cd057d3e" width="398" height="222" loading="lazy" alt="图3A：Original 全图执行的工作集轨迹。">
+          <p id="component-caption" class="figure-note" aria-live="polite">A：光栅化和反向状态在峰值附近同时驻留。</p>
+          <p class="figure-note">横轴为分配事件从 0% 到 100% 的顺序；纵轴为工作集（GiB）。A–C 与 D–F 的纵轴范围不同。</p>
+        </div>
+        <figcaption><strong>每次优化后，观察剩下的峰值。</strong> 图 3 为 训练到 15,000 步的 Bicycle 模型的单视图轨迹，颜色表示并存状态，红色标记为峰值。A–C 与 D–F 使用不同纵轴范围，比较时以数值为准。</figcaption>
+      </figure>
+      <div class="method-explanations">
+        <article><p class="figure-reference">A → B</p><h3>分开两段反向，提前释放缓存</h3><p>先完成光栅化反向，收集投影属性的梯度，再进行投影反向。这样，已经完成工作的光栅化缓存可以在后续梯度状态增长前退出。</p></article>
+        <article><p class="figure-reference">B → C</p><h3>用负载预算控制局部光栅化</h3><p>将图像划为 Leaf，逐块完成前向、损失和反向。超过预算的区域继续细分；相机布局可以缓存，但每次执行前重新检查当前负载。</p></article>
+        <article><p class="figure-reference">C → D → E</p><h3>让投影与梯度跟随参与的高斯</h3><p>局部缓存变小后，全模型投影和梯度成为新的主要开销。候选索引投影与紧凑梯度只为可能参与当前视图的高斯保留详细状态。</p></article>
+      </div>
+      <div class="method-system"><h3>从渲染步骤，延伸到完整训练。</h3><p>更细的分组和更小的 Leaf 预算（F）可以进一步降低工作集，也会增加执行开销。渲染之外，CPU 辅助结构重建与有界图像供给继续控制训练过程中的资源需求。</p></div>
+      <p class="figure-note">384 MiB 是局部光栅化负载预算，不是整个训练进程的显存上限。局部 SSIM 窗口与全图 SSIM 的边界处理有差异，最终质量在完整图像上评测。</p>
+    </section>
+
+    <section id="results" class="section soft-section"><div class="shell">
+      <div class="section-heading"><p class="section-number">03 / 效果</p><h2>临时工作集显著降低，<br>重建质量与训练效率保持相近。</h2><p class="section-lead">在 RTX 4090 上，13 个原生高分辨率场景均训练 30,000 步。Original 是同一训练框架中的全图执行对照；两者采用相同的初始化方式和高斯数量调度。</p></div>
+      <div class="result-summary"><p><strong>9.97 → 1.76 GiB</strong><span>五个 5K 室外场景的渲染工作集均值</span></p><p><strong>36.7 → 33.9 分钟</strong><span>相同场景组的完整训练平均时间</span></p><p><strong>24.44 → 24.42 dB</strong><span>相同场景组的平均 PSNR</span></p></div>
+      <div class="subsection-heading"><h3>完整训练：三个数据组的平均结果</h3><span>论文表 1</span></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="论文表1，窄屏可横向滚动"><table id="paper-table"><thead><tr><th scope="col">数据组 / 原生分辨率</th><th scope="col">方法</th><th scope="col">PSNR ↑</th><th scope="col">SSIM ↑</th><th scope="col">LPIPS ↓</th><th scope="col">时间 ↓<small>分钟</small></th><th scope="col">工作集 ↓<small>GiB</small></th></tr></thead><tbody>
+        <tr><th rowspan="2" scope="rowgroup">Mip-NeRF 360 室外<small>5 个场景 · 5K</small></th><td>Original</td><td>24.44</td><td>0.739</td><td>0.314</td><td>36.7</td><td>9.97</td></tr>
+        <tr class="ours"><td>BoundedGS</td><td>24.42</td><td>0.739</td><td>0.314</td><td>33.9</td><td><strong>1.76</strong></td></tr>
+        <tr class="group-start"><th rowspan="2" scope="rowgroup">Mip-NeRF 360 室内<small>4 个场景 · 3K</small></th><td>Original</td><td>31.52</td><td>0.932</td><td>0.239</td><td>16.5</td><td>4.43</td></tr>
+        <tr class="ours"><td>BoundedGS</td><td>31.64</td><td>0.932</td><td>0.239</td><td>15.9</td><td><strong>0.87</strong></td></tr>
+        <tr class="group-start"><th rowspan="2" scope="rowgroup">Tanks and Temples<small>4 个场景 · 4K</small></th><td>Original</td><td>22.92</td><td>0.764</td><td>0.294</td><td>23.2</td><td>7.65</td></tr>
+        <tr class="ours"><td>BoundedGS</td><td>22.91</td><td>0.764</td><td>0.294</td><td>23.0</td><td><strong>1.79</strong></td></tr>
+      </tbody></table></div>
+      <p class="scroll-hint">左右滑动查看完整表格 ↔</p>
+      <p class="figure-note">保留论文表 1 的数值、精度与工作集加粗方式，各组对场景等权平均。工作集为逐场景渲染临时峰值的均值；训练计时排除评测、视频、PLY 保存与资源监控开销。↑ 越高越好，↓ 越低越好。</p>
+
+      <div class="subsection-heading qualitative-heading"><h3>重建细节：长椅边缘与火车文字</h3><span>论文图 2</span></div>
+      <figure class="paper-figure qualitative-figure"><div class="figure-scroll" tabindex="0" role="region" aria-label="论文图2质量对比，窄屏可横向滚动"><img src="assets/figures/figure-2.jpg?v=b9e5c9b0c337" width="3300" height="1470" loading="lazy" alt="论文图2：Bicycle和Train两行，每行依次为真实图像、Original和BoundedGS，保留长椅边缘和火车文字的局部放大插图。"></div><p class="scroll-hint">左右滑动对比三组图像 ↔</p><figcaption>从左到右为真实图像、Original 和 BoundedGS；两行分别为 Bicycle 测试视角 4、Train 测试视角 7。局部放大区域对照细线条、遮挡边缘与文字纹理。</figcaption></figure>
+
+      <div class="evidence-block" id="component-ablation">
+        <div class="subsection-heading"><h3>组件消融：每一步解决哪部分开销？</h3><span>论文表 2</span></div>
+        <p class="evidence-lead">沿着图 3 的 A→E，依次释放光栅化缓存、控制局部负载、压缩投影和梯度，五场景平均工作集从 <strong>9.980 降到 1.662 GiB</strong>，计算也更快。继续缩小预算的 F 能再省显存，但开始付出时间代价。</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="组件消融结果，窄屏可横向滚动"><table class="detail-table"><thead><tr><th scope="col">配置</th><th scope="col">工作集 / GiB ↓</th><th scope="col">第二轮时间 / 秒 ↓</th><th scope="col">渲染相似性 SSIM ↑</th></tr></thead><tbody id="component-rows"><tr><td>A · Original</td><td>9.980</td><td>12.19</td><td>1.000000</td></tr><tr><td>B · 分离反向</td><td>7.638</td><td>11.35</td><td>0.999991</td></tr><tr><td>C · 有界局部光栅化</td><td>5.046</td><td>12.04</td><td>0.999991</td></tr><tr><td>D · 候选索引投影</td><td>3.274</td><td>11.23</td><td>0.999990</td></tr><tr class="ours"><td>E · 紧凑梯度（BoundedGS）</td><td>1.662</td><td>10.46</td><td>0.999991</td></tr><tr><td>F · 3 × 3 分组 / 128 MiB</td><td>1.305</td><td>12.69</td><td>0.999991</td></tr></tbody></table></div>
+        <p class="scroll-hint">左右滑动查看完整表格 ↔</p>
+        <p class="figure-note">固定模型训练模拟，五场景第二轮均值。SSIM 比较与 Original 的渲染相似性，越接近 1 越相似。</p>
+      </div>
+
+      <div class="evidence-block supplementary-figures" id="block-comparisons">
+        <div class="subsection-heading"><h3>为什么不直接把图像均匀切成小块？</h3><span>论文图 5 / 6</span></div>
+        <p class="evidence-lead">分块也能省显存。关键在于：<strong>如何决定块的大小，以及为每一块重复做多少工作。</strong> 下面先让固定分块也使用紧凑投影和梯度，再比较分区策略与逐块更新的代价。</p>
+        <article class="comparison-story" id="figure-5">
+          <p class="figure-reference">图 5 · 固定像素块 vs. 按负载划分</p>
+          <h3>同样使用紧凑状态，Auto Leaf 仍能更高效。</h3>
+          <p class="comparison-setup">同一个约 599 万高斯的 Bicycle 模型，分辨率从 2K 增至 16K。三条路径都使用阶段分离、紧凑投影和梯度；A/B 将图像切成 2K 像素宽的固定块，C 按 384 MiB 负载预算划分。</p>
+          <figure><div class="figure-scroll" tabindex="0" role="region" aria-label="论文图5，窄屏可横向滚动"><img src="assets/figures/figure-5.svg?v=bf9b69fb2163" width="1339" height="634" loading="lazy" alt="图5：A 每个固定块独立更新；B 固定块累积梯度后更新；C Auto Leaf；D 对比时间。16K时三者分别149.4、49.3和35.7秒。"></div><p class="scroll-hint">左右滑动查看四个子图 ↔</p><figcaption>先比较 B 与 C：两者都是每个视图更新一次，Auto Leaf 的工作集更低、更稳定。再看 D：分辨率越高，固定分块的时间开销越明显。</figcaption></figure>
+          <div class="comparison-reading">
+            <p><strong>B → C：同样每视图更新一次，按负载划分更合适。</strong> 固定面积的块仍可能包含很密集的高斯交叠。Auto Leaf 随负载调整区域大小，工作集保持约 1.07 GiB；16K 时，时间从固定分块的 49.3 秒降至 35.7 秒。</p>
+            <p><strong>A → D：每块都更新，节省显存的代价很高。</strong> 16K 被切成 8 × 8 块，每视图要做 64 次参数更新，并重复筛选、投影和梯度构建；这一轮用时达到 149.4 秒。</p>
+          </div>
+          <p class="comparison-takeaway">图 5 的结论：<strong>局部负载决定缓存大小，完整视图汇总后更新避免逐块更新的重复开销。</strong></p>
+        </article>
+        <article class="comparison-story" id="figure-6">
+          <p class="figure-reference">图 6 · 固定网格继续细分的代价</p>
+          <h3>把固定网格切得更细，显存还会降，时间却会涨。</h3>
+          <p class="comparison-setup">换用约 1,198 万高斯的 Bicycle 模型，对比 1 × 1、2 × 2、4 × 4 固定网格，每块独立更新。上排重复全量投影；下排已经加入阶段分离、候选投影和紧凑梯度。</p>
+          <figure><div class="figure-scroll" tabindex="0" role="region" aria-label="论文图6，窄屏可横向滚动"><img src="assets/figures/figure-6.svg?v=3bd4f1bd3a31" width="1210" height="576" loading="lazy" alt="图6：固定网格细分和紧凑状态降低工作集，但每块独立更新会重复计算。紧凑4乘4用时65.36秒，约为同模型Auto Leaf的5.65倍。"></div><p class="scroll-hint">左右滑动查看六个子图 ↔</p><figcaption>先看上排到下排：紧凑投影和梯度确实降低了峰值。再沿下排 D→E→F 看：网格越细，更多次投影、反向和更新在一个视图内重复出现。</figcaption></figure>
+          <div class="comparison-reading">
+            <p><strong>即使采用紧凑状态，重复工作仍然存在。</strong> 2 × 2 和 4 × 4 分别要做 4 次、16 次参数更新；下排时间从 21.84 秒升至 65.36 秒。</p>
+            <p><strong>与同模型的 Auto Leaf 比，收益和代价一起看。</strong> Auto Leaf 为 1.572 GiB、11.57 秒。紧凑 4 × 4 降到 0.848 GiB，多省 0.724 GiB 临时显存，耗时却达到约 5.65 倍。</p>
+          </div>
+          <p class="comparison-takeaway">图 6 的结论：<strong>更小的固定块可以换取更低峰值；Auto Leaf 的优势是以更少的重复计算取得更好的显存与时间折中。</strong></p>
+          <p class="figure-note">同模型 Auto Leaf 数值来自论文附录 C.2。以上数字使用图中 Warm 的全视角峰值与时间；红色 Trace peak 标记的是单个视角。</p>
+        </article>
+      </div>
+    </div></section>
+  </main>
+
+  <footer class="shell site-footer" id="citation"><div class="footer-top"><div><a class="brand" href="#overview">BoundedGS</a><p>Memory-Efficient High-Resolution Training<br>for 3D Gaussian Splatting</p></div><div class="footer-links"><a href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">论文 ↗</a></div></div><details class="citation-details"><summary>引用 <span aria-hidden="true">＋</span></summary><div class="citation-body"><pre id="bibtex">@misc{deng2026boundedgs,
+  title  = {BoundedGS: Memory-Efficient High-Resolution Training
+            for 3D Gaussian Splatting},
+  author = {Xiaobin Deng and Changyu Diao and Min Li and Duanqing Xu},
+  year   = {2026}
+}</pre><button class="button" id="copy-citation">复制 BibTeX</button><span id="copy-status" role="status"></span></div></details><p class="footer-note">图件展示论文中的实验结果与对应设置。<a href="asset-sources.json" target="_blank" rel="noopener">查看图像与数据出处 ↗</a></p></footer>
+</body>
+</html>
