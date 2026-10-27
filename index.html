@@ -6,8 +6,9 @@
   <meta name="theme-color" content="#285f82">
   <meta name="description" content="BoundedGS bounds the active rendering working set for high-resolution 3D Gaussian Splatting (3DGS) training while retaining full-view supervision. Explore the method, results, and paper.">
   <title>BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting</title>
-  <link rel="alternate" hreflang="en" href="./">
-  <link rel="alternate" hreflang="zh-CN" href="zh.html">
+  <link rel="canonical" href="https://xiaobin2001.github.io/BoundedGS-Web/">
+  <link rel="alternate" hreflang="en" href="https://xiaobin2001.github.io/BoundedGS-Web/">
+  <link rel="alternate" hreflang="zh-CN" href="https://xiaobin2001.github.io/BoundedGS-Web/zh.html">
   <link rel="stylesheet" href="style.css?v=3ca6108b19dd">
   <link rel="preload" href="assets/fonts/STIXGeneral.ttf" as="font" type="font/ttf" crossorigin>
   <script src="app.js?v=c64445084d67" defer></script>
@@ -18,9 +19,13 @@
   <meta name="citation_author" content="Changyu Diao">
   <meta name="citation_author" content="Min Li">
   <meta name="citation_author" content="Duanqing Xu">
-  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_publication_date" content="2026/10/25">
   <meta name="citation_language" content="en">
+  <meta name="citation_arxiv_id" content="2610.34233">
+  <meta name="citation_abstract_html_url" content="https://arxiv.org/abs/2610.34233">
+  <meta name="citation_pdf_url" content="https://xiaobin2001.github.io/BoundedGS-Web/assets/boundedgs-paper.pdf">
   <meta property="og:type" content="article">
+  <meta property="og:url" content="https://xiaobin2001.github.io/BoundedGS-Web/">
   <meta property="og:site_name" content="BoundedGS">
   <meta property="og:title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
   <meta property="og:description" content="BoundedGS bounds the active rendering working set for high-resolution 3D Gaussian Splatting (3DGS) training while retaining full-view supervision. Explore the method, results, and paper.">
@@ -29,7 +34,7 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting">
   <meta name="twitter:description" content="BoundedGS bounds the active rendering working set for high-resolution 3D Gaussian Splatting (3DGS) training while retaining full-view supervision. Explore the method, results, and paper.">
-  <link rel="alternate" hreflang="x-default" href="./">
+  <link rel="alternate" hreflang="x-default" href="https://xiaobin2001.github.io/BoundedGS-Web/">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -83,8 +88,12 @@
   "encoding": {
     "@type": "MediaObject",
     "encodingFormat": "application/pdf",
-    "contentUrl": "assets/boundedgs-paper.pdf"
-  }
+    "contentUrl": "https://xiaobin2001.github.io/BoundedGS-Web/assets/boundedgs-paper.pdf"
+  },
+  "identifier": "arXiv:2610.34233",
+  "url": "https://arxiv.org/abs/2610.34233",
+  "datePublished": "2026-10-25",
+  "mainEntityOfPage": "https://xiaobin2001.github.io/BoundedGS-Web/"
 }
   </script>
 </head>
@@ -101,7 +110,7 @@
       <div id="paper-heading" class="paper-heading">
         <h1><span>BoundedGS:</span> Memory-Efficient High-Resolution Training<br class="title-break"> for 3D Gaussian Splatting</h1>
         <p class="authors"><span class="author-name">Xiaobin Deng</span> <span class="author-name">Changyu Diao<sup>*</sup></span> <span class="author-name">Min Li</span> <span class="author-name">Duanqing Xu<sup>*</sup></span></p><p class="affiliation">Zhejiang University</p><p class="author-note">* Corresponding authors.</p>
-        <div class="resource-buttons"><a class="button primary" href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a><button class="button resource-pending" type="button" disabled aria-label="arXiv: Coming soon"><span>arXiv</span><span class="resource-status">Coming soon</span></button><button class="button resource-pending" type="button" disabled aria-label="GitHub: Coming soon"><span>GitHub</span><span class="resource-status">Coming soon</span></button><button class="button resource-pending" type="button" disabled aria-label="Cite: Coming soon"><span>Cite</span><span class="resource-status">Coming soon</span></button></div>
+        <div class="resource-buttons"><a class="button primary" href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a><a class="button" href="https://arxiv.org/abs/2610.34233" target="_blank" rel="noopener">arXiv <span aria-hidden="true">↗</span></a><a class="button" href="https://github.com/XiaoBin2001/BoundedGS" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><a class="button" href="#bibtex">Cite</a></div>
       </div>
       <div class="task-intro"><h2>Keep full-view supervision. <span>Control temporary memory at high resolution.</span></h2></div>
       <p class="cover-setup"><strong>Same starting model. Higher image resolution.</strong> Starting from the same Bicycle model with 5.99 million Gaussians, we keep the views and field of view unchanged and increase image width from 1K to 16K. We compare the temporary working set, training computation time, and L1 loss.</p>
@@ -230,11 +239,14 @@
     </div></section>
   </main>
 
-  <footer class="shell site-footer" id="citation"><div class="footer-top"><div><a class="brand" href="#overview">BoundedGS</a><p>Memory-Efficient High-Resolution Training<br>for 3D Gaussian Splatting</p></div><div class="footer-links"><a href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">Paper ↗</a></div></div><details class="citation-details"><summary>Citation <span aria-hidden="true">＋</span></summary><div class="citation-body"><pre id="bibtex">@misc{deng2026boundedgs,
-  title  = {BoundedGS: Memory-Efficient High-Resolution Training
-            for 3D Gaussian Splatting},
-  author = {Xiaobin Deng and Changyu Diao and Min Li and Duanqing Xu},
-  year   = {2026}
+  <footer class="shell site-footer" id="citation"><div class="footer-top"><div><a class="brand" href="#overview">BoundedGS</a><p>Memory-Efficient High-Resolution Training<br>for 3D Gaussian Splatting</p></div><div class="footer-links"><a href="assets/boundedgs-paper.pdf" target="_blank" rel="noopener">Paper ↗</a></div></div><details class="citation-details"><summary>Citation <span aria-hidden="true">＋</span></summary><div class="citation-body"><pre id="bibtex">@misc{deng2026boundedgsmemoryefficienthighresolutiontraining,
+      title={BoundedGS: Memory-Efficient High-Resolution Training for 3D Gaussian Splatting},
+      author={Xiaobin Deng and Changyu Diao and Min Li and Duanqing Xu},
+      year={2026},
+      eprint={2610.34233},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2610.34233},
 }</pre><button class="button" id="copy-citation">Copy BibTeX</button><span id="copy-status" role="status"></span></div></details><p class="footer-note">Figures show the experiments and settings described in the paper. <a href="asset-sources.json" target="_blank" rel="noopener">Figure and data sources ↗</a></p></footer>
 </body>
 </html>
